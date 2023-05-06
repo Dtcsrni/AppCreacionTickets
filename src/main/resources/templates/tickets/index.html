@@ -1,0 +1,271 @@
+
+<!DOCTYPE html>
+<html lang="es" xmlns:th="httml://www.thymeleaf.org">
+<head>
+<!-- Required meta tags -->
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Corona Admin</title>
+<!-- plugins:css -->
+<link rel="stylesheet"
+	th:href="@{/vendors/mdi/css/materialdesignicons.min.css}">
+<link rel="stylesheet" th:href="@{/vendors/css/vendor.bundle.base.css}">
+<!-- endinject -->
+<!-- Plugin css for this page -->
+<!-- End plugin css for this page -->
+<!-- inject:css -->
+<!-- endinject -->
+<!-- Layout styles -->
+<link rel="stylesheet" th:href="@{/css/style.css}">
+<!-- End layout styles -->
+<link rel="shortcut icon" th:href="@{/images/favicon.png}" />
+</head>
+<body>
+	<div class="container-scroller">
+		<!-- partial:../../partials/_sidebar.html -->
+
+		<!-- partial -->
+		<div class="container-fluid page-body-wrapper">
+			<!-- partial:../../partials/_navbar.html -->
+			<nav class="navbar p-0 fixed-top d-flex flex-row">
+				<div
+					class="navbar-brand-wrapper d-flex d-lg-none align-items-center justify-content-center">
+					<a class="navbar-brand brand-logo-mini" href="index.html"><img
+						th:src="@{/images/logo-mini.svg}" alt="logo" src="" /></a>
+				</div>
+				<div
+					class="navbar-menu-wrapper flex-grow d-flex align-items-stretch">
+					<button class="navbar-toggler navbar-toggler align-self-center"
+						type="button" data-toggle="minimize">
+						<span class="mdi mdi-menu"></span>
+					</button>
+					<ul class="navbar-nav w-100">
+						<li class="nav-item w-100"></li>
+					</ul>
+					<ul class="navbar-nav navbar-nav-right">
+
+						<li class="nav-item nav-settings d-none d-lg-block"><a
+							class="nav-link" href="#"> <i class="mdi mdi-view-grid"></i>
+						</a></li>
+
+
+						<li class="nav-item dropdown"><a class="nav-link"
+							id="profileDropdown" href="#" data-toggle="dropdown"
+							aria-expanded="false">
+
+
+								<div class="navbar-profile">
+									<img class="img-xs rounded-circle"
+										th:src="@{/images/faces/face15.jpg}" alt="" src="">
+									<p class="mb-0 d-none d-sm-block navbar-profile-name">Henry
+										Klein</p>
+									<i class="mdi mdi-menu-down d-none d-sm-block"></i>
+								</div>
+						</a>
+							<div
+								class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list"
+								aria-labelledby="profileDropdown">
+								<h6 class="p-3 mb-0">Perfil</h6>
+								<div class="dropdown-divider"></div>
+
+								<div class="preview-thumbnail">
+									<div class="preview-icon bg-dark rounded-circle">
+										<i class="mdi mdi-settings text-success"></i>
+									</div>
+								</div>
+								<div class="preview-item-content">
+									<p class="preview-subject mb-1">Configuración</p>
+								</div>
+
+								<div class="dropdown-divider"></div>
+
+								<div class="preview-thumbnail">
+									<div class="preview-icon bg-dark rounded-circle">
+										<i class="mdi mdi-logout text-danger"></i>
+									</div>
+								</div>
+								<div class="preview-item-content">
+									<p class="preview-subject mb-1">Salir</p>
+								</div>
+
+
+							</div></li>
+					</ul>
+
+				</div>
+			</nav>
+			<!-- partial -->
+			<div class="main-panel">
+				<div class="content-wrapper">
+					<div class="page-header"></div>
+
+
+					<div class="col-lg-12 stretch-card ">
+						<div class="row">
+							<div class="card-body">
+
+								<h4 class="card-title">Tickets Activos</h4>
+								<p class="card-description"></p>
+								<div class="row col-lg-20" style="border-spacing: 0 5px;">
+
+									<div class="col-lg-4 ">
+										<table class="table table-bordered table-contextual">
+
+											<thead>
+												<tr>
+													<th class="table-primary" colspan="4"
+														style="text-align: center; color: white;">Nuevos</th>
+												</tr>
+
+												<tr class="table-secondary ">
+
+													<th>Id de Ticket</th>
+													<th>Título de Ticket</th>
+													<th>Tipo Incidencia</th>
+													<th>Gravedad</th>
+												</tr>
+											</thead>
+											<tbody>
+
+												<tr class="table-active btn-outline-secondary"
+													th:each="ticket: ${ticketNuevos}">
+													<td th:text="${ticket.id}"></td>
+													<td>
+													
+														<form th:action="@{/tickets/verDetalle/{id} (id=${ticket.id})}"
+															method="post" >
+															<input hidden="true" name="id">
+															<button class="btn btn-dark btn-icon-text" th:text="${ticket.titulo}"></button>
+														</form>
+													</td>
+													<td
+														th:text="${ticket.tipoIncidencia==0} ? 'Bug' : 'Feature'"></td>
+
+
+													<td th:if="${ticket.gravedadIncidencia==0}"
+														class="bg-success ">Baja</td>
+													<td th:if="${ticket.gravedadIncidencia==1}"
+														class="bg-warning ">Media</td>
+													<td th:if="${ticket.gravedadIncidencia==2}"
+														class="bg-danger">Grave</td>
+
+												</tr>
+
+
+											</tbody>
+										</table>
+									</div>
+									<div class="col-lg-4">
+										<table class="table table-bordered table-contextual">
+											<thead>
+												<tr>
+													<th class="table-info" colspan="4"
+														style="text-align: center; color: white;">En Proceso</th>
+												</tr>
+												<tr class="table-secondary">
+													<th>Id de Ticket</th>
+													<th>Título de Ticket</th>
+													<th>Tipo Incidencia</th>
+													<th>Gravedad</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr class="table-active"
+													th:each="ticket: ${ticketEnProceso}">
+													<td th:text="${ticket.id}">></td>
+													<td th:text="${ticket.titulo}"></td>
+													<td
+														th:text="${ticket.tipoIncidencia==0} ? 'Bug' : 'Feature'"></td>
+
+													<td th:if="${ticket.gravedadIncidencia==0}"
+														class="bg-success">Baja</td>
+													<td th:if="${ticket.gravedadIncidencia==1}"
+														class="bg-warning">Media</td>
+													<td th:if="${ticket.gravedadIncidencia==2}"
+														class="bg-danger">Grave</td>
+
+												</tr>
+
+											</tbody>
+										</table>
+									</div>
+									<div class="col-lg-4 ">
+										<table class="table table-bordered table-contextual">
+
+											<thead>
+												<tr>
+													<th class="table-success" colspan="4"
+														style="text-align: center; color: white;">Atendidos</th>
+												</tr>
+												<tr class="table-secondary">
+													<th>Id de Ticket</th>
+													<th>Título de Ticket</th>
+													<th>Tipo Incidencia</th>
+													<th>Gravedad</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr class="table-active"
+													th:each="ticket: ${ticketAtendidos}">
+													<td th:text="${ticket.id}">></td>
+													<td th:text="${ticket.titulo}"></td>
+													<td
+														th:text="${ticket.tipoIncidencia==0} ? 'Bug' : 'Feature'"></td>
+
+
+													<td th:if="${ticket.gravedadIncidencia==0}"
+														class="bg-success">Baja</td>
+													<td th:if="${ticket.gravedadIncidencia==1}"
+														class="bg-warning">Media</td>
+													<td th:if="${ticket.gravedadIncidencia==2}"
+														class="bg-danger">Grave</td>
+
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+
+							</div>
+						</div>
+
+
+
+
+
+					</div>
+
+				</div>
+				<!-- content-wrapper ends -->
+				<!-- partial:../../partials/_footer.html -->
+				<footer class="footer">
+					<div
+						class="d-sm-flex justify-content-center justify-content-sm-between">
+						<span> Desarrollado por Erick Vega </span>
+					</div>
+				</footer>
+				<!-- partial -->
+			</div>
+			<!-- main-panel ends -->
+		</div>
+		<!-- page-body-wrapper ends -->
+	</div>
+	<!-- container-scroller -->
+	<!-- plugins:js -->
+	<script th:src="@{/vendors/js/vendor.bundle.base.js}"
+		type="text/javascript"></script>
+	<!-- endinject -->
+	<!-- Plugin js for this page -->
+	<!-- End plugin js for this page -->
+	<!-- inject:js -->
+	<script th:src="@{/js/off-canvas.js}" type="text/javascript"></script>
+	<script th:src="@{/js/hoverable-collapse.js}" type="text/javascript"></script>
+	<script th:src="@{/js/misc.js}" type="text/javascript"></script>
+	<script th:src="@{/js/settings.js}" type="text/javascript"></script>
+	<script th:src="@{/js/todolist.js}" type="text/javascript"></script>
+	<!-- endinject -->
+	<!-- Custom js for this page -->
+	<!-- End custom js for this page -->
+</body>
+</html>
