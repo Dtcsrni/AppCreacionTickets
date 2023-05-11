@@ -32,7 +32,7 @@ public class TicketsController {
 		List<Ticket> lista = serviceTickets.obtenerTickets();
 		
 		List<Ticket> ticketsNuevosList = new LinkedList<Ticket>();
-		List<Ticket> ticketsEnProcesoList = new LinkedList<Ticket>();
+		List<Ticket> ticketsEnProcesoList =new LinkedList<Ticket>();
 		List<Ticket> ticketsAtendidosList = new LinkedList<Ticket>();
 		for (Ticket tickets : lista) {
 			switch (tickets.getEstatus()) {
